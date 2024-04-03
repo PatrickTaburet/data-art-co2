@@ -7,8 +7,8 @@ let dataObj ={};
 let circleDiam;
 function setup(){
     createCanvas(800, 800);
-    // colorMode(HSB);
-    background(220);
+    colorMode(HSB);
+    background(0, 0, 70);
     
     let countries = table.rows;
     for (let i=0 ; i < countries.length ; i++){
@@ -25,7 +25,8 @@ function setup(){
         }
     }
     console.log(dataObj["China"]);
-    circleDiam = dataObj["France"];
+    circleDiam = dataObj["Mexico"];
+    
     // circleDiam = averageValues (dataObj["China"]);
     // console.log(circleDiam);
 
@@ -41,19 +42,26 @@ function setup(){
 
 // 30 ans de data
 let i = 0;
+let angle = 0;
 function draw(){
-    fill(255, 55, 255)
+    // let color = map(circleDiam[i], -50, 10297, 150 , 360 )
+    let color = map(circleDiam[i], -50, 10297, 70 , 360 )
+    console.log(circleDiam[0] + "  +  " +  circleDiam[240]);
+    console.log(color);
+    fill(color, 100, 100)
     stroke(255)
     i=i+1
-    let x = 0 + width*(i/150);
+    let x = 0 + width*(i/250);
     let y = height/2
     // y = y*noise(0.01*i);
     // console.log(y)
     y = map(noise(0.01*i), 0, 1, 0, height)
-
+    
     //------ Data number flag / banner -------
     // text(dataObj.China, x+200, y+100)
     //---------------------------
+     // Modifier la position des points en fonction de la fonction sinus
+   
     circle(x,y,circleDiam[i]/30)
       if (i == 250){
         noLoop();
@@ -67,11 +75,11 @@ function draw(){
 }
 function averageValues (array){
     let newArray = [];
-    // let secondArray = [];
+    let secondArray = [];
     let finalArray = [];
     doubleArray (array, newArray, 6);
-    doubleArray (newArray, finalArray, 1);
-    // doubleArray (secondArray, finalArray, 1);
+    doubleArray (newArray, secondArray, 1);
+    doubleArray (secondArray, finalArray, 1);
     // console.log(finalArray);
     return finalArray;
 }
