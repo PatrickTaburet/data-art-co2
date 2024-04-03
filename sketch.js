@@ -10,17 +10,35 @@ function setup(){
     background(220);
     
     let countries = table.rows;
-    // valeur en fonction de la date : countries[i].obj[date]
     for (let i=0 ; i < countries.length ; i++){
         let countriesName = countries[i].arr[1];
-        dataObj[countriesName]= countries[i].obj;
-       
-    }
-    console.log("-->  " + dataObj.China[1995]);
-    for (let i=1990; i<2020; i++){
-        console.log(dataObj.Mexico[i]);
+        co2Data = Object.values(countries[i].obj)
+        // console.log(co2Data);
+        dataObj[countriesName]= co2Data;
 
     }
+   console.log(dataObj);
+   for (let i = 0; i < 31; i++) {
+    x = 0 + width*(i/31);
+    y = height/2
+    text(dataObj.China[i], x, y)
+    console.log(dataObj.China[i]);
+    circle(x,y,dataObj.China[i]/50)
+   }
+
+    // console.log( dataObj["China"][1995]);
+    // for (const key in dataObj) {
+    //     if (dataObj.hasOwnProperty(key)) {
+    //         console.log(key + " - " + dataObj[key]);
+            
+    //     }
+     
+    // }
+
+    function containsOnlyNumbers(str) {
+        const regex = /^\d+$/;
+        return regex.test(str);
+      }
 }
 
 // 30 ans de data
