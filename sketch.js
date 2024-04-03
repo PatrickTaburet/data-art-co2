@@ -4,7 +4,7 @@ function preload(){
     table = loadTable("/historical_emissions.csv", "csv", "header")
 }
 let dataObj ={};
-let circleDiam;
+let FRcircleDiam;
 function setup(){
     createCanvas(800, 800);
     colorMode(HSB);
@@ -14,7 +14,6 @@ function setup(){
     for (let i=0 ; i < countries.length ; i++){
         let countriesName = countries[i].arr[1];
         co2Data = Object.values(countries[i].obj)
-        // console.log(co2Data);
         dataObj[countriesName]= co2Data;
 
     }
@@ -25,47 +24,32 @@ function setup(){
         }
     }
     console.log(dataObj["China"]);
-    circleDiam = dataObj["Mexico"];
-    
-    // circleDiam = averageValues (dataObj["China"]);
-    // console.log(circleDiam);
-
+    CHIcircleDiam = dataObj["Chine"];
 
     // console.log(circleDiam);
-
-//    for (let j = 0; j < 31; j++) {
-//     circleDiam.push()
-//     // console.log(circleDiam);
-//    }
 
 }
-
+// ------- - - - - - - - - - - - - - - - - - -
 // 30 ans de data
-let i = 0;
-let angle = 0;
+let i = 1;
 function draw(){
     // let color = map(circleDiam[i], -50, 10297, 150 , 360 )
-    let color = map(circleDiam[i], -50, 10297, 70 , 360 )
-    console.log(circleDiam[0] + "  +  " +  circleDiam[240]);
-    console.log(color);
-    fill(color, 100, 100)
-    stroke(255)
-    i=i+1
-    let x = 0 + width*(i/250);
-    let y = height/2
-    // y = y*noise(0.01*i);
-    // console.log(y)
-    y = map(noise(0.01*i), 0, 1, 0, height)
-    
-    //------ Data number flag / banner -------
-    // text(dataObj.China, x+200, y+100)
-    //---------------------------
-     // Modifier la position des points en fonction de la fonction sinus
-   
-    circle(x,y,circleDiam[i]/30)
-      if (i == 250){
+    drawData("China", i, 10)
+    drawData("Mexico", i, 100)
+    drawData("Germany", i, 50)
+    drawData("Japan", i, 150)
+    drawData("Russia", i, 200)
+    i++
+    if (i == 250){
         noLoop();
     }
+    // console.log(FRcircleDiam[0] + "  +  " +  FRcircleDiam[240]);
+    // console.log(color);
+   
+     //------ Data number flag / banner -------
+    // text(dataObj.China, x+200, y+100)
+    //---------------------------
+   
     // ------ LOOPING ------ :
     // if (i == 127){
     //     i=0;
@@ -73,6 +57,25 @@ function draw(){
    
 
 }
+
+function drawData(country, i, offset){
+    FRcircleDiam = dataObj[country];
+    let color = map(FRcircleDiam[i], -50, 10297, 100+offset , 360 )
+    fill(color, 100, 100)
+    stroke(255)
+   
+    let x = 0 + width*(i/250);
+    let y = height/2
+    // y = y*noise(0.01*i);
+    // console.log(y)
+    y = map(noise(offset + 0.01*i), 0, 1, 0, height)
+    
+   
+    circle(x,y,FRcircleDiam[i]/30)
+   
+}
+
+
 function averageValues (array){
     let newArray = [];
     let secondArray = [];
