@@ -4,6 +4,7 @@ function preload(){
     table = loadTable("/historical_emissions.csv", "csv", "header")
 }
 let dataObj ={};
+let circleDiam;
 function setup(){
     createCanvas(800, 800);
     // colorMode(HSB);
@@ -17,37 +18,70 @@ function setup(){
         dataObj[countriesName]= co2Data;
 
     }
-   console.log(dataObj);
-   for (let i = 0; i < 31; i++) {
-    x = 0 + width*(i/31);
-    y = height/2
-    text(dataObj.China[i], x, y)
-    console.log(dataObj.China[i]);
-    circle(x,y,dataObj.China[i]/50)
-   }
+    for (const key in dataObj) {
+        if (Object.hasOwnProperty.call(dataObj, key)) {
+            const element = dataObj[key];
+            dataObj[key] = averageValues (dataObj[key])          
+        }
+    }
+    console.log(dataObj["China"]);
+    circleDiam = dataObj["France"];
+    // circleDiam = averageValues (dataObj["China"]);
+    // console.log(circleDiam);
 
-    // console.log( dataObj["China"][1995]);
-    // for (const key in dataObj) {
-    //     if (dataObj.hasOwnProperty(key)) {
-    //         console.log(key + " - " + dataObj[key]);
-            
-    //     }
-     
-    // }
 
-    function containsOnlyNumbers(str) {
-        const regex = /^\d+$/;
-        return regex.test(str);
-      }
+    // console.log(circleDiam);
+
+//    for (let j = 0; j < 31; j++) {
+//     circleDiam.push()
+//     // console.log(circleDiam);
+//    }
+
 }
 
 // 30 ans de data
-let dataX = 0;
+let i = 0;
 function draw(){
     fill(255, 55, 255)
-    noStroke()
-    ellipse(dataX, height/2, 30, 30)
-    dataX++
-  
+    stroke(255)
+    i=i+1
+    let x = 0 + width*(i/150);
+    let y = height/2
+    // y = y*noise(0.01*i);
+    // console.log(y)
+    y = map(noise(0.01*i), 0, 1, 0, height)
 
+    //------ Data number flag / banner -------
+    // text(dataObj.China, x+200, y+100)
+    //---------------------------
+    circle(x,y,circleDiam[i]/30)
+      if (i == 250){
+        noLoop();
+    }
+    // ------ LOOPING ------ :
+    // if (i == 127){
+    //     i=0;
+    // }
+   
+
+}
+function averageValues (array){
+    let newArray = [];
+    // let secondArray = [];
+    let finalArray = [];
+    doubleArray (array, newArray, 6);
+    doubleArray (newArray, finalArray, 1);
+    // doubleArray (secondArray, finalArray, 1);
+    // console.log(finalArray);
+    return finalArray;
+}
+function doubleArray (array, newArray, minus) {
+    for (let h = 0; h < array.length -minus; h++) {
+        let current = parseFloat(array[h]);
+        let next = parseFloat(array[h + 1]);
+        let average = (current + next) / 2;
+        newArray.push(current);
+        newArray.push(average);
+    } 
+    return newArray;
 }
