@@ -8,9 +8,15 @@ function preload(){
 }
 
 function setup(){
-    createCanvas(600, 600);
+    createCanvas(800, 800);
+    console.log(width);
+    
+    // width = 800 - (800 - 600) / 2; // Set the width to 600 pixels with padding on each side
+    // height = 800 - (800 - 600) / 2;
+    // width = width-(width/3);
+    // height = height-(height/3);
     colorMode(HSB);
-    background(0, 0, 70);
+    background(0, 0, 50);
     frameRate(60);
     let countries = table.rows;
     for (let i=0 ; i < countries.length ; i++){
@@ -35,17 +41,19 @@ function setup(){
 // 30 ans de data
 let i = 1;
 function draw(){
-    // let color = map(circleDiam[i], -50, 10297, 150 , 360 )
-    drawData("China", i, 10, "left")
-    drawData("France", i, 50, "left")
-    drawData("Russia", i, 100, "right")
-    drawData("Mexico", i, 150, "right")
-    drawData("India", i, 200, "right")
-    drawData("Ghana", i, 80, "right")
+    // ------ Offset between 1 et 2000 -------
+    drawData("Brazil", i, 100, "top")
+    drawData("South Korea", i, 300, "top")
+    
+    drawData("Saudi Arabia", i, 600, "top")
+    drawData("Australia", i, 1000, "bottom")
+    drawData("China", i, 800, "left")
+    drawData("Ghana", i, 80, "top")
 
-    // drawData("Germany", i, 50, "right")
-    // drawData("Japan", i, 150, "left")
-    // drawData("Russia", i, 200, "left")
+    drawData("Indonesia", i, 50, "right")
+     drawData("Nigeria", i, 50, "right")
+     drawData("Japan", i, 150, "left")
+    drawData("Russia", i, 200, "bottom")
     i++
     if (i == 250){
         noLoop();
@@ -56,7 +64,7 @@ function draw(){
   
    
     // ------ LOOPING ------ :
-    // if (i == 127){
+    // if (i == 240){
     //     i=0;
     // }
    
@@ -68,48 +76,52 @@ function drawData(country, i, offset, origin){
     let y;
     let txtX;
     let txtY;
+    let posOffset = map(offset, 0, 1000, 0, 500)
+    console.log("--->" + posOffset); 
     switch (origin) {
         case "left":
             x = 0 + width*(i/250);
-            y = height/2
-            y = map(noise(offset + 0.01*i), 0, 1, 0, height)
-            // console.log(y); 
-            txtX = x;
+            y = map(noise(posOffset + 0.01*i), 0, 1, 0, height)
+            txtX = x + 25;
             txtY = y-40 ;
+            console.log("left : " + y);
             break;
         case "right":
             x = width - width*(i/250);
-            y = height/2
-            y = map(noise(offset + 0.01*i), 0, 1, 0, height)
-            txtX = x-100 ;
+            y = map(noise( posOffset +0.01*i) , 0, 1, 0, height)
+            txtX = x-150 ;
             txtY = y -50 ;
             // console.log(txtY)
             break;
-        case "top":
-            y = height - height*(i/250);
-            x = width/2
-            x = map(noise(offset + 0.01*i), 0, 1, 0, width)
-            break;
         case "bottom":
+            y = height - height*(i/250);
+            x = map(noise(posOffset + 0.01*i), 0, 1, 0, width)
+            txtX = x + 25 ;
+            txtY = y -40 ;
+            break;
+        case "top":
             y = 0 + height*(i/250);
-            x = width/2
-            x = map(noise(offset + 0.01*i), 0, 1, 0, width)
+            x = map(noise(posOffset + 0.01*i), 0, 1, 0, width)
+            txtX = x + 25 ;
+            txtY = y +40 ;
             break;
         default:
             console.log("Invalid origin.");
             break;
     }
-
+    let colorOffset = map(offset, 0, 2000, 0, 360)
     circleDiam = dataObj[country];
-    let color = map(circleDiam[i], -50, 10297, 100+offset , 360 )
+    let color = map(circleDiam[i], -50, 10297, 100 + colorOffset , 360 )
     fill(color, 100, 100)
     console.log(frameCount )
     setTimeout(() => {
         if(frameCount<56){
+            push()
             fill(color, 100, 100)
+            strokeWeight(4);
             stroke(0);
             text(country, txtX, txtY);
-         
+            pop()
         }
     }, 900);
 
@@ -119,12 +131,18 @@ function drawData(country, i, offset, origin){
     countryNamesObj[country] = origin; // Get the origin of the choosen countries to display on the html
     // console.log(country);
  
-    circle(x,y,circleDiam[i]/30)
-
-
+    circle(x,y,circleDiam[i]/60) // MAP SCALE ON SLIDER (diam/scale)
 
     //------ Data number flag / banner -------
-    //   text(dataObj[country], x+200, y+100+offset);
+  
+        // push()
+        // fill(color-random(0, 70), 100, 100)
+        // strokeWeight(2);
+        // textSize(20);
+        // text(dataObj[country], x+offset/4-150, y+offset/3-150);
+        // pop()
+
+   
     //---------------------------
 }
 
