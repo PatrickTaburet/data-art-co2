@@ -1,12 +1,18 @@
 html, body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+
+}
+
+canvas {
+  display: block;
+}
   
-  }
-  
-  canvas {
-    display: block;
-  }
-  
+.inputBox{
+  width: 30%;
+}
+.country, #submitButton, #reloadButton{
+  font-size: 30px;
+}
